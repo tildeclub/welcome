@@ -65,6 +65,9 @@ puts "  as you left them."
 puts
 puts "  the tool we recommend is byobu: https://superuser.com/a/423397/866501"
 puts
+puts "  if you're not sure about this, decline for now. you can set it up at any time"
+puts "  later on by running 'byobu-enable' from your shell."
+puts
 
 enable_byobu = prompt.yes?("  would you like to set byobu to launch automatically when you log in?")
 
