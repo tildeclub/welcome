@@ -84,7 +84,7 @@ tz = %x{tzselect}
 puts
 puts "  you selected #{tz}, adding this to your ~/.profile now"
 puts "  it might not take effect until you log out and back in"
-open(".profile", "a") { |f| f.puts "export TZ='#{tz}'" }
+open("#{Dir.home}/.profile", "a") { |f| f.puts "export TZ='#{tz}'" }
 
 # pronouns
 sep
@@ -92,7 +92,7 @@ puts "step 5:"
 pronouns = prompt.ask("  what are your preferred pronouns?")
 puts "  saving your pronouns to your ~/.pronouns file."
 puts "  feel free to update it as needed!"
-open(".pronouns", "w") { |f| f.puts pronouns }
+open("#{Dir.home}/.pronouns", "w") { |f| f.puts pronouns }
 
 
 # welcome completed
@@ -102,7 +102,7 @@ puts
 puts "please come stop by chat when you get a chance by running the 'chat' command" unless enable_byobu
 puts "we're happy to help as needed and get you any information you're looking for"
 puts "have a look at our wiki: https://tilde.team/wiki/ (ctrl-click will let you open that from here)"
-File.delete(".new_user")
+File.delete("#{Env.home}/.new_user")
 
 if enable_byobu
     exec "byobu"
