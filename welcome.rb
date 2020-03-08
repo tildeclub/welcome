@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require "fileutils"
 require "tty-prompt"
 require "tty-screen"
 
