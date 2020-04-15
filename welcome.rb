@@ -14,9 +14,9 @@ prompt = TTY::Prompt.new
 system "clear"
 
 # welcome
-system "figlet -f slant tilde.team"
+system "figlet -f slant tilde.club"
 puts
-puts "welcome to tilde.team!!"
+puts "welcome to tilde.club!!"
 puts
 puts "we're glad you're here!"
 puts "let's walk through some basic questions to get you set up"
@@ -97,14 +97,13 @@ open("#{Dir.home}/.pronouns", "w") { |f| f.puts pronouns }
 
 # welcome completed
 sep
-puts "welcome to the ~team!"
+puts "welcome to the ~club!"
 puts
 puts "please come stop by chat when you get a chance by running the 'chat' command" unless enable_byobu
 puts "we're happy to help as needed and get you any information you're looking for"
-puts "have a look at our wiki: https://tilde.team/wiki/ (ctrl-click will let you open that from here)"
+puts "have a look at our wiki: https://tilde.club/wiki/ (ctrl-click will let you open that from here)"
 File.delete("#{Env.home}/.new_user")
 
 if enable_byobu
     exec "byobu"
 end
-
