@@ -102,8 +102,9 @@ puts
 puts "please come stop by chat when you get a chance by running the 'chat' command" unless enable_byobu
 puts "we're happy to help as needed and get you any information you're looking for"
 puts "have a look at our wiki: https://tilde.club/wiki/ (ctrl-click will let you open that from here)"
-File.delete("#{Env.home}/.new_user")
+File.delete("#{Dir.home}/.new_user")
 
 if enable_byobu
     exec "byobu"
 end
+
