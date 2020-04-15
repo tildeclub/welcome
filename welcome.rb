@@ -114,9 +114,22 @@ else
 end
 puts
 
-# pronouns
+# 2fa
 sep
 puts "step 6:"
+puts "  tilde.club supports two factor authentication."
+if prompt.yes?("would you like to set up 2fa now?")
+  system "setup-2fa"
+else
+  puts "  if you change your mind or need to make changes you can run"
+  puts "  the 'setup-2fa' command"
+  puts "  for additional info, see the wiki: https://tilde.club/wiki/2fa.html"
+end
+puts
+
+# pronouns
+sep
+puts "step 7:"
 pronouns = prompt.ask("  what are your preferred pronouns?")
 puts "  saving your pronouns to your ~/.pronouns file."
 puts "  feel free to update it as needed!"
