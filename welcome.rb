@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require "etc"
 require "tty-prompt"
 require "tty-screen"
 
@@ -45,7 +46,7 @@ puts
 
 shells = File.readlines("/etc/shells")
     .select { |line| !line.start_with?("#") }
-    .map { |line| line.chomp }
+    .map(&:chomp)
     .map { |line| [File.basename(line), line] }
     .to_h
 
@@ -72,7 +73,7 @@ enable_byobu = prompt.yes?("  would you like to set byobu to launch automaticall
 
 if enable_byobu
     system "byobu-enable"
-    puts "our default configs will connect you to chat and open a mail client if you choose to enable it"
+    puts "our default configs will connect you to chat and open a mail client when you log in"
 end
 
 # tz
@@ -86,14 +87,35 @@ puts "  you selected #{tz}, adding this to your ~/.profile now"
 puts "  it might not take effect until you log out and back in"
 open("#{Dir.home}/.profile", "a") { |f| f.puts "export TZ='#{tz}'" }
 
-# pronouns
+# email forwarding
 sep
 puts "step 5:"
+puts "  tilde.club has a standard mailserver that you can use to send"
+puts "  and receive mail using #{Etc.getlogin}@tilde.club"
+puts
+
+if prompt.yes?("  would you like to forward your mail elsewhere?")
+  forward_addr = prompt.ask("  where would you like to forward your mail to?") do |q|
+    q.validate(/\A\w+@\w+\.\w+\Z/)
+    q.messages[:valid?] = "Invalid email address"
+  end
+
+  File.open("#{Dir.home}/.forward", "w") { |f| f.puts forward_addr }
+  puts "  ok, your mail will now be sent off to #{forward_addr}"
+else
+  puts "  alright, your mail won't be forwarded anywhere."
+  puts "  you can use any standard mail client with smtp and imap"
+  puts "  to access your @tilde.club email"
+  puts "  see the wiki page for more information: https://tilde.club/wiki/email.html"
+end
+
+# pronouns
+sep
+puts "step 6:"
 pronouns = prompt.ask("  what are your preferred pronouns?")
 puts "  saving your pronouns to your ~/.pronouns file."
 puts "  feel free to update it as needed!"
 open("#{Dir.home}/.pronouns", "w") { |f| f.puts pronouns }
-
 
 # welcome completed
 sep
