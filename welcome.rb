@@ -107,7 +107,12 @@ else
   puts "  you can use any standard mail client with smtp and imap"
   puts "  to access your @tilde.club email"
   puts "  see the wiki page for more information: https://tilde.club/wiki/email.html"
+  puts
+  puts "  if you decide to forward your mail in the future, you can do so"
+  puts "  by putting the destination address in a file called ~/.forward"
+  puts "  eg: echo \"me@example.com\" > ~/.forward"
 end
+puts
 
 # pronouns
 sep
