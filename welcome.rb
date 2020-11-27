@@ -5,9 +5,9 @@ require "tty-prompt"
 require "tty-screen"
 
 def sep
-    puts
-    puts "~" * TTY::Screen.width
-    puts
+  puts
+  puts "~" * TTY::Screen.width
+  puts
 end
 
 prompt = TTY::Prompt.new
@@ -49,10 +49,10 @@ puts "  note that the list of shells extends beyond one page"
 puts
 
 shells = File.readlines("/etc/shells")
-    .select { |line| !line.start_with?("#") }
-    .map(&:chomp)
-    .map { |line| [File.basename(line), line] }
-    .to_h
+  .select { |line| !line.start_with?("#") }
+  .map(&:chomp)
+  .map { |line| [File.basename(line), line] }
+  .to_h
 
 shell = prompt.select("  which shell would you like to use?", shells, per_page: shells.count)
 puts
@@ -80,8 +80,8 @@ puts
 enable_byobu = prompt.yes?("  would you like to set byobu to launch automatically when you log in?")
 
 if enable_byobu
-    system "byobu-enable"
-    puts "our default configs will connect you to chat and open a mail client when you log in"
+  system "byobu-enable"
+  puts "our default configs will connect you to chat and open a mail client when you log in"
 end
 
 # tz
@@ -155,6 +155,6 @@ puts "have a look at our wiki: https://tilde.club/wiki/ (ctrl-click will let you
 File.delete("#{Dir.home}/.new_user")
 
 if enable_byobu
-    exec "byobu"
+  exec "byobu"
 end
 
