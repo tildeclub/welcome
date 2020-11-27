@@ -152,6 +152,7 @@ puts
 puts "please come stop by chat when you get a chance by running the 'chat' command" unless enable_byobu
 puts "we're happy to help as needed and get you any information you're looking for"
 puts "have a look at our wiki: https://tilde.club/wiki/ (ctrl-click will let you open that from here)"
+puts "if you need to run this wizard again, you can do so with the `firstlogin` command"
 File.delete("#{Dir.home}/.new_user")
 
 if enable_byobu
