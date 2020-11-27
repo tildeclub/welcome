@@ -32,7 +32,11 @@ puts "  first, let's change your shell password"
 puts
 puts "  you'll find the temporary password in your welcome email"
 puts "  enter the current password once, followed by your new password twice"
-system "passwd"
+
+success = false
+until success do
+  success = system "passwd"
+end
 
 # select your shell
 sep
@@ -54,7 +58,11 @@ shell = prompt.select("  which shell would you like to use?", shells, per_page: 
 puts
 puts "  great, you've picked #{shell}!"
 puts "  in order to change your shell, you'll have to enter your password again"
-system "chsh -s #{shell}"
+
+success = false
+until success do
+  success = system "chsh -s #{shell}"
+end
 
 # byobu or not
 sep
@@ -102,6 +110,8 @@ if prompt.yes?("  would you like to forward your mail elsewhere?")
 
   File.open("#{Dir.home}/.forward", "w") { |f| f.puts forward_addr }
   puts "  ok, your mail will now be sent off to #{forward_addr}"
+  puts "  you can update this in your ~/.forward file"
+  puts "  if you remove the file, you can use our mailserver as usual without forwarding"
 else
   puts "  alright, your mail won't be forwarded anywhere."
   puts "  you can use any standard mail client with smtp and imap"
