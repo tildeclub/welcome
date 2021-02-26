@@ -89,7 +89,7 @@ sep
 puts "step 4:"
 puts "  great, let's set up your timezone!"
 puts
-tz = %x{tzselect}
+tz = %x{tzselect}.chomp
 puts
 puts "  you selected #{tz}, adding this to your ~/.profile now"
 puts "  it might not take effect until you log out and back in"
