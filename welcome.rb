@@ -64,9 +64,33 @@ until success do
   success = system "chsh -s #{shell}"
 end
 
-# byobu or not
+# default text editor
 sep
 puts "step 3:"
+puts "  now, let's pick your default text editor"
+puts
+puts "  You can change the default command-line text"
+puts "  editor used by various programs, such as crontab"
+puts
+
+editors = File.readlines("/etc/editors")
+  .select { |line| !line.start_with?("#") }
+  .map(&:chomp)
+  .map { |line| [File.basename(line), line] }
+  .to_h
+
+editors = prompt.select("  which editor would you like to use?", editors, per_page: editors.count)
+puts
+puts "  great, you've picked #{editors}!"
+
+success = false
+until success do
+  success = system "echo 'export EDITOR=#{editors}' >> #{Dir.home}/.profile"
+end
+
+# byobu or not
+sep
+puts "step 4:"
 puts "  we recommend using a terminal multiplexer, which is a tool that allows you"
 puts "  to have tabs in your shell and even disconnect while leaving things running"
 puts "  as you left them."
@@ -86,7 +110,7 @@ end
 
 # tz
 sep
-puts "step 4:"
+puts "step 5:"
 puts "  great, let's set up your timezone!"
 puts
 tz = %x{tzselect}.chomp
@@ -97,7 +121,7 @@ open("#{Dir.home}/.profile", "a") { |f| f.puts "export TZ='#{tz}'" }
 
 # email forwarding
 sep
-puts "step 5:"
+puts "step 6:"
 puts "  tilde.club has a standard mailserver that you can use to send"
 puts "  and receive mail using #{Etc.getlogin}@tilde.club"
 puts
@@ -126,7 +150,7 @@ puts
 
 # 2fa
 sep
-puts "step 6:"
+puts "step 7:"
 puts "  tilde.club supports two factor authentication."
 if prompt.yes?("would you like to set up 2fa now?")
   system "setup-2fa"
@@ -139,7 +163,7 @@ puts
 
 # pronouns
 sep
-puts "step 7:"
+puts "step 8:"
 pronouns = prompt.ask("  what are your preferred pronouns?")
 puts "  saving your pronouns to your ~/.pronouns file."
 puts "  feel free to update it as needed!"
@@ -158,4 +182,3 @@ File.delete("#{Dir.home}/.new_user")
 if enable_byobu
   exec "byobu"
 end
-
