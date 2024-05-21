@@ -3,6 +3,7 @@
 require "etc"
 require "tty-prompt"
 require "tty-screen"
+require "uri"
 
 def sep
   puts
@@ -128,7 +129,7 @@ puts
 
 if prompt.yes?("  would you like to forward your mail elsewhere?")
   forward_addr = prompt.ask("  where would you like to forward your mail to?") do |q|
-    q.validate(/\A\w+@\w+\.\w+\Z/)
+    q.validate(URI::MailTo::EMAIL_REGEXP)
     q.messages[:valid?] = "Invalid email address"
   end
 
