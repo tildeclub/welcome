@@ -118,7 +118,7 @@ puts
 tz = %x{tzselect}.chomp
 puts
 puts "  you selected #{tz}, adding this to your profile now"
-if File.basename(user_shell) == "zsh"
+if File.basename(shell) == "zsh"
   open("#{Dir.home}/.zshrc", "a") { |f| f.puts "export TZ='#{tz}'" }
   puts "  Timezone set in your .zshrc file for ZSH."
 else
