@@ -116,9 +116,15 @@ puts "  great, let's set up your timezone!"
 puts
 tz = %x{tzselect}.chomp
 puts
-puts "  you selected #{tz}, adding this to your ~/.profile now"
-puts "  it might not take effect until you log out and back in"
-open("#{Dir.home}/.profile", "a") { |f| f.puts "export TZ='#{tz}'" }
+puts "  you selected #{tz}, adding this to your profile now"
+if File.basename(user_shell) == "zsh"
+  open("#{Dir.home}/.zshrc", "a") { |f| f.puts "export TZ='#{tz}'" }
+  puts "  Timezone set in your .zshrc file for ZSH."
+else
+  open("#{Dir.home}/.profile", "a") { |f| f.puts "export TZ='#{tz}'" }
+  puts "  Timezone set in your .profile file."
+end
+puts "  It might not take effect until you log out and back in."
 
 # email forwarding
 sep
