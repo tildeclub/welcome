@@ -12,6 +12,7 @@ def sep
 end
 
 prompt = TTY::Prompt.new
+user_shell = ""
 
 system "clear"
 
