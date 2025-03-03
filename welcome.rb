@@ -52,6 +52,7 @@ puts
 
 shells = File.readlines("/etc/shells")
   .select { |line| !line.start_with?("#") }
+  .select { |line| File.basename(line).match?(/^(sh|bash|zsh|fish|csh|tcsh|ksh|mksh|dash|xonsh|powershell|elvish|rksh|rmksh|hx)$/) }
   .map(&:chomp)
   .map { |line| [File.basename(line), line] }
   .to_h
@@ -62,8 +63,19 @@ puts "  great, you've picked #{shell}!"
 puts "  in order to change your shell, you'll have to enter your password again"
 
 success = false
-until success do
+retries = 3
+until success || retries == 0 do
   success = system "chsh -s #{shell}"
+  unless success
+    retries -= 1
+    puts "  Error: Failed to change the shell. Please try again. (#{retries} retries left)"
+  end
+end
+
+if success
+  puts "  Your default shell has been successfully changed to #{shell}."
+else
+  puts "  Failed to change the shell after multiple attempts. Please contact support."
 end
 
 # default text editor
@@ -87,7 +99,7 @@ puts "  great, you've picked #{editors}!"
 
 success = false
 until success do
-  success = system "echo 'export EDITOR=#{editors}' >> #{Dir.home}/.profile"
+  success = system "echo 'export EDITOR=#{editors}' >> #{Dir.home}/.bash_profile"
 end
 
 # byobu or not
@@ -122,8 +134,8 @@ if File.basename(shell) == "zsh"
   open("#{Dir.home}/.zshrc", "a") { |f| f.puts "export TZ='#{tz}'" }
   puts "  Timezone set in your .zshrc file for ZSH."
 else
-  open("#{Dir.home}/.profile", "a") { |f| f.puts "export TZ='#{tz}'" }
-  puts "  Timezone set in your .profile file."
+  open("#{Dir.home}/.bash_profile", "a") { |f| f.puts "export TZ='#{tz}'" }
+  puts "  Timezone set in your .bash_profile file."
 end
 puts "  It might not take effect until you log out and back in."
 
